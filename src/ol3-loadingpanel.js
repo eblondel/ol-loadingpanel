@@ -28,9 +28,6 @@
  * @param {olx.control.LoadingPanelOptions} opt_options Options.
  * 
  * @author Emmanuel Blondel
- * @contributor Marco Balestra
- * 
- * @seeAlso https://github.com/eblondel/ol3-loading-panel
  *
  */
 ol.control.LoadingPanel = function(opt_options) {
@@ -48,7 +45,7 @@ ol.control.LoadingPanel = function(opt_options) {
 	if(options.progressMode) if(['tile','layer'].indexOf(options.progressMode) == -1) alert("invalid value for 'progressMode'");
 	this.loadProgressByTile_ = ( options.progressMode == 'layer')? false : true;
 	
-	this.showPanel = (typeof options.showpanel == 'boolean') ? options.showpanel : true;
+	this.showPanel = (typeof options.showPanel == 'boolean') ? options.showPanel : true;
 	
 	var className = options.className ? options.className : 'ol-loading-panel';
 	var element = document.createElement('span');
