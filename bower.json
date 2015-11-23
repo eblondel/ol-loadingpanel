@@ -1,0 +1,26 @@
+{
+  "name": "ol3-loadingpanel",
+  "version": "1.0.0",
+  "homepage": "https://github.com/eblondel/ol3-loadingpanel",
+  "authors": [
+    "Emmanuel Blondel <emmanuel.blondel1@gmail.com>"
+  ],
+  "description": "Loading Panel for OpenLayers 3",
+  "main": [
+    "src/ol3-loadingpanel.js",
+    "src/ol3-loadingpanel.css"
+  ],
+  "keywords": [
+    "openlayers",
+    "ol3",
+    "loadingpanel",
+    "map",
+    "layer"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ]
+}
