@@ -25,7 +25,7 @@ OpenLayers 3 Loading Panel.
 
 ## License
 
-MIT (c) Emmanuel Blondel.
+MIT (c) 2015 Emmanuel Blondel
 
 ## Contributors
 
