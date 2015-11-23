@@ -69,21 +69,6 @@ Set the map instance the control is associated with.
 |:---|:---|:----------|
 |`map`|`ol.Map`| The map instance. |
 
-
-##### `(static) ol.control.LayerSwitcher.forEachRecursive(lyr,fn)`
-
-**Static** Call the supplied function for each layer in the passed layer group
-recursing nested groups.
-
-###### Parameters:
-
-|Name|Type|Description|
-|:---|:---|:----------|
-|`lyr`|`ol.layer.Group`| The layer group to start iterating from. |
-|`fn`|`function`| Callback which will be called for each `ol.layer.Base` found under `lyr`. The signature for `fn` is the same as `ol.Collection#forEach` |
-
-
-
 ## License
 
 MIT (c) 2015 Emmanuel Blondel
