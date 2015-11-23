@@ -60,10 +60,17 @@ ol.control.LoadingPanel = function(opt_options) {
 	var elementDom = (this.widget == 'animatedgif')? 'span' : 'progress';
 	var element = document.createElement(elementDom);
 	element.className = className + ' ' + 'ol-unselectable';
+	if(this.widget == 'progressbar') {
+		//element progress bar for old browsers
+		var div = document.createElement('div');
+		div.className = 'ol-progress-bar';
+		var span = document.createElement('span');
+		div.appendChild(span);
+	}
 
 	//events
 	this.oncustomstart = (options.onstart)? options.onstart : false;
-	this.oncustomprogress = (options.onprogress)? options.onprogress : function(i,j){ console.log( "Load: "+i+' out of '+j); };
+	this.oncustomprogress = (options.onprogress)? options.onprogress : false;
 	this.oncustomend = (options.onend)? options.onend : false;
 
 	ol.control.Control.call(this, {
@@ -80,13 +87,13 @@ ol.inherits(ol.control.LoadingPanel, ol.control.Control);
 ol.control.LoadingPanel.prototype.setup = function() {
 	var size = this.getMap().getSize();
 	this.element.style.left = String( Math.round( size[0]/2 ) ) + 'px';
-    	this.element.style.bottom = String( Math.round( size[1]/2 ) ) + 'px';
+    this.element.style.bottom = String( Math.round( size[1]/2 ) ) + 'px';
 	
 	var this_ = this;
 
 	this.mapListeners.push(this.getMap().on('pointerdown', function() {
-            	this_.hide();
-        }));
+		this_.hide();
+	}));
 
 	//display loading panel before render
 	this.mapListeners.push(this.getMap().beforeRender(function(map,framestate){
@@ -128,6 +135,10 @@ ol.control.LoadingPanel.prototype.registerLayerLoadEvents_ = function(layer) {
 		if( this_.loadStatus_ ) {
 			this_.loadStatus_ = false;
 			this_.loadProgress_ = [0,1];
+			if(this_.widget == 'progressbar') {
+				this_.element.value = this_.loadProgress_[0];
+				this_.element.max = this_.loadProgress_[1];
+			}
 			this_.show();
 			if(this_.oncustomstart) this_.oncustomstart.apply(this_,[]);
 		}
@@ -135,7 +146,11 @@ ol.control.LoadingPanel.prototype.registerLayerLoadEvents_ = function(layer) {
 		this.isLoaded = this_.updateSourceLoadStatus_(this);
 		if( this_.loadProgressByTile_) {
 			this_.loadProgress_[1] += 1;
-			if(this_.widget == 'progressbar') this_.element.max = this_.loadProgress_[1];
+			if(this_.widget == 'progressbar'){
+				this_.element.max = this_.loadProgress_[1];
+				var progressBarDiv = this_.element.getElementsByClassName('ol-progress-bar');
+				if( progressBarDiv.length > 0 ) progressBarDiv[0].children()[0].width = String(parseInt(100 * this_.progress()))+'%';
+			}
 		}
 	});
 	layer.getSource().on("tileloadend", function(e) {
@@ -143,7 +158,11 @@ ol.control.LoadingPanel.prototype.registerLayerLoadEvents_ = function(layer) {
 		this.isLoaded = this_.updateSourceLoadStatus_(this);
 		if( this_.loadProgressByTile_) {
 			this_.loadProgress_[0] += 1;
-			if(this_.widget == 'progressbar') this_.element.value = this_.loadProgress_[0];
+			if(this_.widget == 'progressbar'){
+				this_.element.value = this_.loadProgress_[0];
+				var progressBarDiv = this_.element.getElementsByClassName('ol-progress-bar');
+				if( progressBarDiv.length > 0 ) progressBarDiv[0].children()[0].width = String(parseInt(100 * this_.progress()))+'%';
+			}
 			if(this_.oncustomprogress) this_.oncustomprogress.apply(this_,this_.loadProgress_);
 		}
 
