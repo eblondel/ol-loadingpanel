@@ -1,10 +1,17 @@
 # OpenLayers 3 Loading Panel
 
-Experimental Loading panel control for an [OL3](https://github.com/openlayers/ol3) map.
+Loading panel control for an [OL3](https://github.com/openlayers/ol3) map.
+
+## Status
+
+Experimental. This plugin has been tested on Tiled images (WMS).
 
 ## Examples
 
-**TODO**
+The examples demonstrate usage and can be viewed online thanks to [RawGit](http://rawgit.com/):
+
+* [Basic usage](http://rawgit.com/eblondel/ol3-loadingpanel/master/examples/loadingpanel.html)
+    * Create a map instance with a basic loading panel control
 
 ## API
 
