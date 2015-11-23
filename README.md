@@ -16,7 +16,7 @@ The examples demonstrate usage and can be viewed online thanks to [RawGit](http:
    * Create a map instance with a basic loading panel control, with a progress bar
 * [Using event listeners](http://rawgit.com/eblondel/ol3-loadingpanel/master/examples/loadingpanel-progress-events.html)
    * Create a map instance adding event listeners ``onstart``, ``onprogress``, ``onend``
-   * 
+   
 ## API
 
 ### `new ol.control.LoadingPanel(opt_options)`
