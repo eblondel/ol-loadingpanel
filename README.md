@@ -21,7 +21,53 @@ The examples demonstrate usage and can be viewed online thanks to [RawGit](http:
 
 OpenLayers 3 Loading Panel.
 
-**TODO**
+See [the examples](./examples) for usage.
+
+#### Parameters:
+
+The ``ol.control.LoadingPanel`` accepts a single ``opt_options`` parameter (of type ``Object``) that extends ``olx.control.ControlOptions``, and accepts the following properties:
+
+|Name|Type|Description|
+|:---|:---|:----------|
+|`className`|`String`| control CSS class name. Default value is ``ol-loading-panel``|
+|`widget`|`String`| widget type: ``animatedgif`` (default value) or ``progressbar``|
+|`progressMode`|`String`| mode to use for reporting progress: ``tile`` (default) or ``layer``|
+|`showPanel`|`Boolean`| If the loading panel has to be shown. Default value is ``true``. Value ``false`` can be used if an external loading panel element is used, together with the ``ol.control.LoadingPanel`` ``events``|
+|`onstart`|`Object`| a function to register on load start ``event``, with no parameter.|
+|`onprogress`|`Object`| a function to register on load progress ``event`` defined as ``function(loaded, toload){...}`` where ``loaded`` is the number of ``tiles`` (or ``layers``) loaded, and ``toload`` is the total number of ``tiles`` (or ``layers``) to be loaded |
+|`onend`|`Object`| a function to register on load end  ``event``, with no parameter.|
+
+#### Extends
+
+`ol.control.Control`
+
+#### Methods
+
+##### `show()`
+
+Show the loading panel.
+
+##### `hide()`
+
+Hide the loading panel.
+
+##### `progressDetails()`
+
+Returns an array of [loaded,toload] values.
+
+##### `progress()`
+
+Returns a number between 0 and 1.
+
+##### `setMap(map)`
+
+Set the map instance the control is associated with.
+
+###### Parameters:
+
+|Name|Type|Description|
+|:---|:---|:----------|
+|`map`|`ol.Map`| The map instance. |
 
 ## License
 
