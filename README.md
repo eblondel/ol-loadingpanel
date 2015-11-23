@@ -10,8 +10,10 @@ Experimental. This plugin has been tested on Tiled images (WMS).
 
 The examples demonstrate usage and can be viewed online thanks to [RawGit](http://rawgit.com/):
 
-* [Basic usage](http://rawgit.com/eblondel/ol3-loadingpanel/master/examples/loadingpanel.html)
-    * Create a map instance with a basic loading panel control
+* [Basic usage - with Animated GIF](http://rawgit.com/eblondel/ol3-loadingpanel/master/examples/loadingpanel.html)
+    * Create a map instance with a basic loading panel control, with an animated GIF
+* [Basic usage - with Progress bar](http://rawgit.com/eblondel/ol3-loadingpanel/master/examples/loadingpanel-progress.html)
+    * Create a map instance with a basic loading panel control, with a progress bar
 
 ## API
 

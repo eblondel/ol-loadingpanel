@@ -1,6 +1,6 @@
 {
   "name": "ol3-lloadingpanel",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Loading Panel for OpenLayers 3",
   "repository": {
     "type": "git",
@@ -8,7 +8,7 @@
   },
   "author": "Emmanuel Blondel <emmanuel.blondel1@gmail.com>",
   "contributors": [
-      "Marco Balestra <balestra@altersoftware.it>"
+    "Marco Balestra <balestra@altersoftware.it>"
   ],
   "license": "MIT",
   "bugs": {
@@ -18,6 +18,7 @@
     "openlayers": "~3.11.1"
   },
   "devDependencies": {
-    "jsdoc": "~3.3.0-beta1"
+    "jsdoc": "~3.3.0-beta1",
+    "jsdoc-to-markdown": "^1.2.1"
   }
 }

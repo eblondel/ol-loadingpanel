@@ -41,16 +41,27 @@ ol.control.LoadingPanel = function(opt_options) {
 	this.loadStatus_ = false;
 
 	this.loadProgress_ = [0,1];
+	
+	//widget type
+	if(options.widget) if(['animatedgif', 'progressbar'].indexOf(options.widget) == -1) alert("invalid value for 'widget'");
+	this.widget = (options.widget)? options.widget : 'animatedgif';
 
+	//progress mode
 	if(options.progressMode) if(['tile','layer'].indexOf(options.progressMode) == -1) alert("invalid value for 'progressMode'");
 	this.loadProgressByTile_ = ( options.progressMode == 'layer')? false : true;
 	
+	//other options
 	this.showPanel = (typeof options.showPanel == 'boolean') ? options.showPanel : true;
 	
+	//class name
 	var className = options.className ? options.className : 'ol-loading-panel';
-	var element = document.createElement('span');
+	
+	//element
+	var elementDom = (this.widget == 'animatedgif')? 'span' : 'progress';
+	var element = document.createElement(elementDom);
 	element.className = className + ' ' + 'ol-unselectable';
 
+	//events
 	this.oncustomstart = (options.onstart)? options.onstart : false;
 	this.oncustomprogress = (options.onprogress)? options.onprogress : function(i,j){ console.log( "Load: "+i+' out of '+j); };
 	this.oncustomend = (options.onend)? options.onend : false;
@@ -124,6 +135,7 @@ ol.control.LoadingPanel.prototype.registerLayerLoadEvents_ = function(layer) {
 		this.isLoaded = this_.updateSourceLoadStatus_(this);
 		if( this_.loadProgressByTile_) {
 			this_.loadProgress_[1] += 1;
+			if(this_.widget == 'progressbar') this_.element.max = this_.loadProgress_[1];
 		}
 	});
 	layer.getSource().on("tileloadend", function(e) {
@@ -131,6 +143,7 @@ ol.control.LoadingPanel.prototype.registerLayerLoadEvents_ = function(layer) {
 		this.isLoaded = this_.updateSourceLoadStatus_(this);
 		if( this_.loadProgressByTile_) {
 			this_.loadProgress_[0] += 1;
+			if(this_.widget == 'progressbar') this_.element.value = this_.loadProgress_[0];
 			if(this_.oncustomprogress) this_.oncustomprogress.apply(this_,this_.loadProgress_);
 		}
 
@@ -197,6 +210,10 @@ ol.control.LoadingPanel.prototype.updateLoadStatus_ = function() {
 		//progress events
 		if( loaded > this.loadProgress_[0]){
 			this.loadProgress_ = [loaded,loadStatusArray.length];
+			if(this_.widget == 'progressbar') {
+				this_.element.max = this_.loadProgress_[1];
+				this_.element.value = this_.loadProgress_[0];
+			}
 			if(this.oncustomprogress) this.oncustomprogress.apply(this,this.loadProgress_);
 		}
 	}
