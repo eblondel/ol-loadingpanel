@@ -153,8 +153,10 @@ ol.control.LoadingPanel.prototype.registerLayersLoadEvents_ = function() {
 					this.tileListeners.push( this.registerLayerLoadEvents_(l) );
 				}
 			}
-		} else {
-			this.tileListeners.push( this.registerLayerLoadEvents_(layer) );	
+		} else if (layer instanceof ol.layer.Layer) {
+			if( !(layer instanceof ol.layer.Vector) ) {
+				this.tileListeners.push( this.registerLayerLoadEvents_(layer) );
+			}
 		}
 	}
 }
