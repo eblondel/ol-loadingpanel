@@ -5,6 +5,9 @@
   "authors": [
     "Emmanuel Blondel <emmanuel.blondel1@gmail.com>"
   ],
+  "contributors": [
+    "Marco Balestra"
+  ],
   "description": "Loading Panel for OpenLayers 3",
   "main": [
     "src/ol3-loadingpanel.js",
