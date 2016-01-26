@@ -131,7 +131,9 @@ ol.control.LoadingPanel.prototype.registerLayerLoadEvents_ = function(layer) {
 	
 	var this_ = this;
 
-	layer.getSource().on("tileloadstart", function(e) {
+	var source = layer.getSource();
+
+	source.on(["tileloadstart", "imageloadstart"], function(e) {
 		if( this_.loadStatus_ ) {
 			this_.loadStatus_ = false;
 			this_.loadProgress_ = [0,1];
@@ -142,7 +144,7 @@ ol.control.LoadingPanel.prototype.registerLayerLoadEvents_ = function(layer) {
 			this_.show();
 			if(this_.oncustomstart) this_.oncustomstart.apply(this_,[]);
 		}
-		this.loading = (this.loading)? this.loading+1 : 1;
+		this.loading = (this.loading)? this.loading + 1 : 1;
 		this.isLoaded = this_.updateSourceLoadStatus_(this);
 		if( this_.loadProgressByTile_) {
 			this_.loadProgress_[1] += 1;
@@ -153,8 +155,9 @@ ol.control.LoadingPanel.prototype.registerLayerLoadEvents_ = function(layer) {
 			}
 		}
 	});
-	layer.getSource().on("tileloadend", function(e) {
-		this.loaded = (this.loaded)? this.loaded+1 : 1;
+	
+	source.on(["tileloadend", "imageloadend", "tileloaderror", "imageloaderror"], function(e) {
+		this.loaded = (this.loaded)? this.loaded + 1 : 1;
 		this.isLoaded = this_.updateSourceLoadStatus_(this);
 		if( this_.loadProgressByTile_) {
 			this_.loadProgress_[0] += 1;
