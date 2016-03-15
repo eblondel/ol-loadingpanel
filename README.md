@@ -5,7 +5,7 @@ Loading panel control for an [OL3](https://github.com/openlayers/ol3) map.
 
 This module has been initially developed for the needs of the OpenFIGIS [FigisMap](https://github.com/openfigis/FigisMap) project used as web-mapping framework in the FAO Fisheries & Aquaculture [website](http://www.fao.org/fishery/en), principally through the Fisheries Global Information System (FIGIS).
 
-In comparison to the Loading Panel available with OpenLayers 2, beyond the capacity to display a simple animated GIF, the ol3-loadingpanel allows to provide the actual **layer loading progress**, e.g. by means of a progress bar. Depending on the application needs, the plugin is **customizable with loading events** (start, progress, end).
+In comparison to the Loading Panel available with OpenLayers 2, beyond the capacity to display a simple animated GIF, the ol3-loadingpanel allows to provide the actual **layer loading progress**, e.g. by means of a progress bar. Depending on the application needs, the plugin is **customizable with loading events listeners** (start, progress, end).
 
 ## Status
 
