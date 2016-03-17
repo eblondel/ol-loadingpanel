@@ -2,9 +2,16 @@
 
 Loading panel control for an [OL3](https://github.com/openlayers/ol3) map.
 
+
+This module has been initially developed for the needs of the OpenFIGIS [FigisMap](https://github.com/openfigis/FigisMap) project used as web-mapping framework in the FAO Fisheries & Aquaculture [website](http://www.fao.org/fishery/en), principally through the Fisheries Global Information System (FIGIS).
+
+In comparison to the Loading Panel available with OpenLayers 2, beyond the capacity to display a simple animated GIF, the ol3-loadingpanel allows to provide the actual **layer loading progress**, e.g. by means of a progress bar. Depending on the application needs, the plugin is **customizable with loading events listeners** (start, progress, end).
+
 ## Status
 
-Experimental. This plugin has been tested on Tiled images (WMS).
+The plugin has been **successfully tested** and, for information, it will be soon used in production in [FIGIS](http://www.fao.org/fishery/topic/18042/en).
+
+For users/developers interested in contributing, contributions, bug reporting and/or fixhing are more than welcome! If you have questions or suggestions, please do not hesitate to [contact me](mailto:emmanuel.blondel1@gmail.com)
 
 ## Examples
 
@@ -83,4 +90,7 @@ MIT (c) 2015 Emmanuel Blondel
 
 * [FigisMap](https://github.com/openfigis/FigisMap) Javascript API for the Fisheries Global Information System (FIGIS)
 
+## Sponsors
 
+* UN FAO FI Department, as part of the [Fisheries Global Information System](http://www.fao.org/fishery/topic/18042/en) (FIGIS)
+[![FIGIS](http://www.fao.org/figis/servlet/IRS?iid=17437)](http://www.fao.org/fishery/topic/18042/e)
