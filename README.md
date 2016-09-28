@@ -9,9 +9,9 @@ In comparison to the Loading Panel available with OpenLayers 2, beyond the capac
 
 ## Status
 
-The plugin has been **successfully tested** and, for information, it will be soon used in production in [FIGIS](http://www.fao.org/fishery/topic/18042/en).
+The plugin has been **successfully tested** and, for information, it is used in production in [FIGIS](http://www.fao.org/fishery/topic/18042/en).
 
-For users/developers interested in contributing, contributions, bug reporting and/or fixhing are more than welcome! If you have questions or suggestions, please do not hesitate to [contact me](mailto:emmanuel.blondel1@gmail.com)
+For users/developers interested in contributing, contributions, bug reporting and/or fixing are more than welcome! If you have questions or suggestions, please do not hesitate to [contact me](mailto:emmanuel.blondel1@gmail.com)
 
 ## Examples
 
