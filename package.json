@@ -1,6 +1,6 @@
 {
   "name": "ol3-loadingpanel",
-  "version": "1.0.1",
+  "version": "1.0.2-SNAPSHOT",
   "description": "Loading Panel for OpenLayers 3",
   "repository": {
     "type": "git",

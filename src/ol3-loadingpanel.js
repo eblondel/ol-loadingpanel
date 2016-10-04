@@ -1,5 +1,5 @@
 /**
- * ol3-loadingpanel - v1.0.1 - 2016-03-17
+ * ol3-loadingpanel - v1.0.2 - 2016-10-04
  * Copyright (c) 2016 Emmanuel Blondel
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
@@ -51,7 +51,7 @@
 		
 		var options = opt_options || {};
 
-			this.mapListeners = [];
+		this.mapListeners = [];
 
 		this.tileListeners = [];
 
@@ -170,7 +170,10 @@
 				}
 			}
 		});
-		layer.getSource().on("tileloadend", function(e) {
+		layer.getSource().on(["tileloadend", "tileloaderror"], function(e) {
+			
+			if(e.tile.getState() == 3) console.warn("Loading tile failed for resource '"+e.tile.src_+"'");
+		
 			this.loaded = (this.loaded)? this.loaded+1 : 1;
 			this.isLoaded = this_.updateSourceLoadStatus_(this);
 			if( this_.loadProgressByTile_) {
@@ -182,8 +185,8 @@
 				}
 				if(this_.oncustomprogress) this_.oncustomprogress.apply(this_,this_.loadProgress_);
 			}
-
 		});
+		
 	}
 
 	/**
