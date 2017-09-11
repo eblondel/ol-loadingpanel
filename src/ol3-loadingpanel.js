@@ -1,5 +1,5 @@
 /**
- * ol3-loadingpanel - v1.0.2 - 2016-10-04
+ * ol3-loadingpanel - v1.0.2 - 2017-09-12
  * Copyright (c) 2016 Emmanuel Blondel
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
@@ -50,6 +50,8 @@
 	  ol.control.LoadingPanel = function(opt_options) {
 		
 		var options = opt_options || {};
+        
+        this.layerCount = 0;
 
 		this.mapListeners = [];
 
@@ -107,7 +109,14 @@
 		this.element.style.bottom = String( Math.round( size[1]/2 ) ) + 'px';
 		
 		var this_ = this;
-
+        
+        // Clean up listeners associated with the previous map
+        for (var i = 0, key; i < this_.mapListeners.length; i++) {
+            this_.getMap().unByKey(this_.mapListeners[i]);
+        }
+        this_.mapListeners.length = 0;  
+        
+        //pointerdown event
 		this.mapListeners.push(this.getMap().on('pointerdown', function() {
 			this_.hide();
 		}));
@@ -147,11 +156,16 @@
 	ol.control.LoadingPanel.prototype.registerLayerLoadEvents_ = function(layer) {
 		
 		var this_ = this;
-
-		layer.getSource().on("tileloadstart", function(e) {
-			if( this_.loadStatus_ ) {
+        
+        var eventProperty = (layer.getSource() instanceof ol.source.Tile)? "tile" : "image";
+        var startEvents = (layer.getSource() instanceof ol.source.Tile)? "tileloadstart" : "imageloadstart";
+        var endEvents = (layer.getSource() instanceof ol.source.Tile)? ["tileloadend", "tileloaderror"] : ["imageloadstart", "imageloaderror"];
+        //on start
+		layer.getSource().on(startEvents, function(e) {
+			//map load status to false in case we add start events
+            if( this_.loadStatus_ ) {
 				this_.loadStatus_ = false;
-				this_.loadProgress_ = [0,1];
+				this_.loadProgress_ = [0,0];
 				if(this_.widget == 'progressbar') {
 					this_.element.value = this_.loadProgress_[0];
 					this_.element.max = this_.loadProgress_[1];
@@ -159,6 +173,7 @@
 				this_.show();
 				if(this_.oncustomstart) this_.oncustomstart.apply(this_,[]);
 			}
+            if(!this.loaded) this.loaded = 0;
 			this.loading = (this.loading)? this.loading+1 : 1;
 			this.isLoaded = this_.updateSourceLoadStatus_(this);
 			if( this_.loadProgressByTile_) {
@@ -170,11 +185,11 @@
 				}
 			}
 		});
-		layer.getSource().on(["tileloadend", "tileloaderror"], function(e) {
-			
-			if(e.tile.getState() == 3) console.warn("Loading tile failed for resource '"+e.tile.src_+"'");
+        //on end
+		layer.getSource().on(endEvents, function(e) {
+			if(e[eventProperty].getState() == 3) console.warn("Loading " + eventProperty + " failed for resource '"+e[eventProperty].src_+"'");
 		
-			this.loaded = (this.loaded)? this.loaded+1 : 1;
+			this.loaded += 1;
 			this.isLoaded = this_.updateSourceLoadStatus_(this);
 			if( this_.loadProgressByTile_) {
 				this_.loadProgress_[0] += 1;
@@ -203,11 +218,13 @@
 					var l = layers[j];
 					if( !(l instanceof ol.layer.Vector) ) {
 						this.tileListeners.push( this.registerLayerLoadEvents_(l) );
+                        this.layerCount += 1;
 					}
 				}
 			} else if (layer instanceof ol.layer.Layer) {
 				if( !(layer instanceof ol.layer.Vector) ) {
 					this.tileListeners.push( this.registerLayerLoadEvents_(layer) );
+                    this.layerCount += 1;
 				}
 			}
 		}
@@ -219,7 +236,6 @@
 	 */
 	ol.control.LoadingPanel.prototype.updateLoadStatus_ = function() {
 		
-
 		var loadStatusArray = new Array();
 		var groups = this.getMap().getLayers().getArray();
 		for(var i=0;i<groups.length;i++) {
@@ -239,8 +255,7 @@
 			
 		//status
 		this.loadStatus_ = (loadStatusArray.indexOf(false) == - 1) && (loadStatusArray.indexOf(true) != -1);
-
-
+        
 		if( !this.loadProgressByTile_ ) {
 
 			//progress
@@ -295,17 +310,23 @@
 	 * @param {ol.Map} map The map instance.
 	 */
 	ol.control.LoadingPanel.prototype.setMap = function(map) {
-		
-		// Clean up listeners associated with the previous map
-			for (var i = 0, key; i < this.mapListeners.length; i++) {
-				this.getMap().unByKey(this.mapListeners[i]);
-			}
-		
-			this.mapListeners.length = 0;
-			
-		ol.control.Control.prototype.setMap.call(this, map);
-			if (map) this.setup();
+        var this_ = this;
+		ol.control.Control.prototype.setMap.call(this, map);             
 
+        if (map){
+            //first setup
+            this.setup();
+            
+             //register event if a map change is triggered
+            this.mapListeners.push(this.getMap().on("change", function(e){
+                var count = this_.getMap().getLayers().getArray().map(function(item){return item.getLayers().getArray().length}).reduce((a, b)=> a + b,0);
+                if(count != this_.layerCount){
+                
+                    //re-setup
+                    this_.setup();
+                }
+            }));
+        }
 	};
 
 }));
