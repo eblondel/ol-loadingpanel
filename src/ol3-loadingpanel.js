@@ -319,7 +319,9 @@
             
              //register event if a map change is triggered
             this.mapListeners.push(this.getMap().on("change", function(e){
-                var count = this_.getMap().getLayers().getArray().map(function(item){return item.getLayers().getArray().length}).reduce((a, b)=> a + b,0);
+                var count = this_.getMap().getLayers().getArray()
+		.map(function(item){return item.getLayers().getArray().length})
+		.reduce(function(a, b){ return a + b;});
                 if(count != this_.layerCount){
                 
                     //re-setup
