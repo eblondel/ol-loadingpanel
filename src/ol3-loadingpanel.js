@@ -1,5 +1,5 @@
 /**
- * ol3-loadingpanel - v1.0.2 - 2017-09-12
+ * ol3-loadingpanel - v1.0.2 - 2018-02-19
  * Copyright (c) 2016 Emmanuel Blondel
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
@@ -319,12 +319,30 @@
             
              //register event if a map change is triggered
             this.mapListeners.push(this.getMap().on("change", function(e){
-                var count = this_.getMap().getLayers().getArray().map(function(item){return item.getLayers().getArray().length}).reduce((a, b)=> a + b,0);
-                if(count != this_.layerCount){
-                
-                    //re-setup
-                    this_.setup();
-                }
+				var layers = this_.getMap().getLayers().getArray();
+				var withLayerGroups = layers[0] instanceof ol.layer.Group;
+				var count = layers.length;
+				if(withLayerGroups){
+					count = layers
+						.map(function(item){return item.getLayers().getArray().length})
+						.reduce(function(a, b){ return a + b;});
+					var thelayers = new Array();
+					for(var i=0;i<layers.length;i++){
+						var groupLayers = layers[i].getLayers().getArray();
+						console.log(groupLayers);
+						for(var j=0;j<groupLayers.length;j++){
+							thelayers.push(groupLayers[j]);
+						}
+					}
+					layers = thelayers;
+				}
+				console.log("Nb of layers = " + count);
+				console.log("Previous nb of layers = " + this_.layerCount);
+				if(count > this_.layerCount){
+					//last layer
+					var l = layers[layers.length-1];
+					this_.registerLayerLoadEvents_(l);
+				}
             }));
         }
 	};
