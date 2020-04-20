@@ -1,5 +1,5 @@
 /**
- * ol3-loadingpanel - v1.0.2 - 2018-02-19
+ * ol3-loadingpanel - v1.0.3 - 2020-04-20
  * Copyright (c) 2016 Emmanuel Blondel
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
@@ -52,6 +52,9 @@
 		var options = opt_options || {};
         
         this.layerCount = 0;
+		
+		this.hasPostRenderedOnce = undefined;
+		this.hasPostRenderedMore = false;
 
 		this.mapListeners = [];
 
@@ -119,6 +122,8 @@
         //pointerdown event
 		this.mapListeners.push(this.getMap().on('pointerdown', function() {
 			this_.hide();
+			this_.hasPostRenderedOnce = undefined;
+			this_.hasPostRenderedMore = false;
 		}));
 
 		//display loading panel before render
@@ -131,9 +136,18 @@
 		//hide loading panel after render
 		this.mapListeners.push(this.getMap().on("postrender", function(e){
 			this_.updateLoadStatus_();
-			if( this_.loadStatus_ ){
+			if(this_.hasPostRenderedOnce){
+				this_.hasPostRenderedMore = true;
+			}
+			if(typeof this_.hasPostRenderedOnce == "undefined"){
+				this_.hasPostRenderedOnce = true;
+				this_.hasPostRenderedMore = false;			
+			}
+			if(this_.loadStatus_ && this_.hasPostRenderedMore){
 				if(this_.oncustomend) this_.oncustomend.apply(this_,[]);
 				this_.hide();
+				this_.hasPostRenderedOnce = undefined;
+				this_.hasPostRenderedMore = false;
 			}
 		}));
 		
@@ -255,7 +269,7 @@
 			
 		//status
 		this.loadStatus_ = (loadStatusArray.indexOf(false) == - 1) && (loadStatusArray.indexOf(true) != -1);
-        
+		
 		if( !this.loadProgressByTile_ ) {
 
 			//progress
@@ -329,15 +343,12 @@
 					var thelayers = new Array();
 					for(var i=0;i<layers.length;i++){
 						var groupLayers = layers[i].getLayers().getArray();
-						console.log(groupLayers);
 						for(var j=0;j<groupLayers.length;j++){
 							thelayers.push(groupLayers[j]);
 						}
 					}
 					layers = thelayers;
 				}
-				console.log("Nb of layers = " + count);
-				console.log("Previous nb of layers = " + this_.layerCount);
 				if(count > this_.layerCount){
 					//last layer
 					var l = layers[layers.length-1];
