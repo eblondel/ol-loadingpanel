@@ -1,24 +1,46 @@
 {
-  "name": "ol3-loadingpanel",
-  "version": "1.0.2-SNAPSHOT",
-  "description": "Loading Panel for OpenLayers 3",
+  "name": "ol-loadingpanel",
+  "version": "2.0.0",
+  "description": "Loading Panel control for OpenLayers",
   "repository": {
     "type": "git",
-    "url": "https://github.com/eblondel/ol3-loadingpanel.git"
+    "url": "https://github.com/eblondel/ol-loadingpanel.git"
   },
-  "author": "Emmanuel Blondel <emmanuel.blondel1@gmail.com>",
+  "author": {
+    "name": "Emmanuel Blondel",
+    "email": "emmanuel.blondel1@gmail.com",
+    "url": "https://eblondel.github.io"
+  },
+  "license": "MIT",
   "contributors": [
     "Marco Balestra <balestra@altersoftware.it>"
   ],
-  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/eblondel/ol3-loadingpanel/issues"
+    "url": "https://github.com/eblondel/ol-loadingpanel/issues"
   },
-  "dependencies": {
-    "openlayers": "~3.11.1"
+  "keywords": [
+    "openlayers",
+    "loadingpanel",
+    "ol"
+  ],
+  "main": "src/ol-loadingpanel.js",
+  "scripts": {
+    "build": "parcel build --public-url ./ index.html"
+  },
+  "staticFiles": {
+    "staticPath": [
+      {
+        "staticPath": "src",
+        "staticOutDir": ""
+      }
+    ]
   },
   "devDependencies": {
-    "jsdoc": "~3.3.0-beta1",
-    "jsdoc-to-markdown": "^1.2.1"
+    "cssnano": "^4.1.10",
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-static-files-copy": "^2.5.0"
+  },
+  "dependencies": {
+    "ol": "^6.4.3"
   }
 }

@@ -1,40 +1,46 @@
-# OpenLayers 3 Loading Panel
+# OpenLayers Loading Panel
 
-Loading panel control for an [OL3](https://github.com/openlayers/ol3) map.
+Loading panel control for an [OpenLayers](https://github.com/openlayers/openlayers) map.
 
 
 This module has been initially developed for the needs of the OpenFIGIS [FigisMap](https://github.com/openfigis/FigisMap) project used as web-mapping framework in the FAO Fisheries & Aquaculture [website](http://www.fao.org/fishery/en), principally through the Fisheries Global Information System (FIGIS).
 
-In comparison to the Loading Panel available with OpenLayers 2, beyond the capacity to display a simple animated GIF, the ol3-loadingpanel allows to provide the actual **layer loading progress**, e.g. by means of a progress bar. Depending on the application needs, the plugin is **customizable with loading events listeners** (start, progress, end).
+Beyond the capacity to display a simple animated GIF, the ol-loadingpanel allows to provide the actual **layer loading progress**, e.g. by means of a progress bar. Depending on the application needs, the plugin is **customizable with loading events listeners** (start, progress, end).
+
+Initially  developed for Openlayers 3, the plugin is under revision for supporting later versions of OpenLayers.
 
 ## Status
 
-The plugin has been **successfully tested** and, for information, it is used in production in [FIGIS](http://www.fao.org/fishery/topic/18042/en).
+The plugin has been **successfully tested** and, for information, it is used in production in [FIGIS](http://www.fao.org/fishery/topic/18042/en) and several map viewers built on the [OpenFairViewer](https://github.com/eblondel/OpenFairViewer) framework
 
 For users/developers interested in contributing, contributions, bug reporting and/or fixing are more than welcome! If you have questions or suggestions, please do not hesitate to [contact me](mailto:emmanuel.blondel1@gmail.com)
 
 ## Examples
 
+_UNDER REVIEW (CURRENT UPGRADE TO OPENLAYERS 6)_
+
 The examples demonstrate usage and can be viewed online thanks to [RawGit](http://rawgit.com/):
 
-* [Basic usage - with Animated GIF](http://rawgit.com/eblondel/ol3-loadingpanel/master/examples/loadingpanel.html)
+* [Basic usage - with Animated GIF](http://rawgit.com/eblondel/ol-loadingpanel/master/examples/loadingpanel.html)
    * Create a map instance with a basic loading panel control, with an animated GIF
-* [Basic usage - with Progress bar](http://rawgit.com/eblondel/ol3-loadingpanel/master/examples/loadingpanel-progress.html)
+* [Basic usage - with Progress bar](http://rawgit.com/eblondel/ol-loadingpanel/master/examples/loadingpanel-progress.html)
    * Create a map instance with a basic loading panel control, with a progress bar
-* [Using event listeners](http://rawgit.com/eblondel/ol3-loadingpanel/master/examples/loadingpanel-events.html)
+* [Using event listeners](http://rawgit.com/eblondel/ol-loadingpanel/master/examples/loadingpanel-events.html)
    * Create a map instance adding event listeners ``onstart``, ``onprogress``, ``onend``
    
 ## API
 
-### `new ol.control.LoadingPanel(opt_options)`
+_UNDER REVIEW (CURRENT UPGRADE TO OPENLAYERS 6)_
 
-OpenLayers 3 Loading Panel.
+### `new LoadingPanel(opt_options)`
+
+OpenLayers Loading Panel.
 
 See [the examples](./examples) for usage.
 
 #### Parameters:
 
-The ``ol.control.LoadingPanel`` accepts a single ``opt_options`` parameter (of type ``Object``) that extends ``olx.control.ControlOptions``, and accepts the following properties:
+The ``LoadingPanel`` accepts a single ``opt_options`` parameter (of type ``Object``), and accepts the following properties:
 
 |Name|Type|Description|
 |:---|:---|:----------|
@@ -48,7 +54,7 @@ The ``ol.control.LoadingPanel`` accepts a single ``opt_options`` parameter (of t
 
 #### Extends
 
-`ol.control.Control`
+`ol/control/Control`
 
 #### Methods
 
@@ -76,7 +82,7 @@ Set the map instance the control is associated with.
 
 |Name|Type|Description|
 |:---|:---|:----------|
-|`map`|`ol.Map`| The map instance. |
+|`map`|`ol/Map`| The map instance. |
 
 ## License
 
@@ -89,6 +95,7 @@ MIT (c) 2015 Emmanuel Blondel
 ## Applications
 
 * [FigisMap](https://github.com/openfigis/FigisMap) Javascript API for the Fisheries Global Information System (FIGIS)
+* [OpenFairViewer](https://github.com/eblondel/OpenFairViewer) 
 
 ## Sponsors
 

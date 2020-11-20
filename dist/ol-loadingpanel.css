@@ -21,19 +21,19 @@ progress.ol-loading-panel{
 }
 
 progress.ol-loading-panel[value]{
-	background-color: rgba(204,102,0,.6);
+	background-color: rgba(53,187,205,.8);
     border-radius: 2px; 
     background-size: 35px 20px, 100% 100%, 100% 100%;
 }
 
 progress.ol-loading-panel[value]::-moz-progress-bar{
-	background-color: rgba(204,102,0,.6);
+	background-color: rgba(53,187,205,.8);
     border-radius: 2px; 
     background-size: 35px 20px, 100% 100%, 100% 100%;
 }
 
 progress.ol-loading-panel[value]::-webkit-progress-value{
-	background-color: rgba(204,102,0,.6);
+	background-color: rgba(53,187,205,.8);
     border-radius: 2px; 
     background-size: 35px 20px, 100% 100%, 100% 100%;
 }
