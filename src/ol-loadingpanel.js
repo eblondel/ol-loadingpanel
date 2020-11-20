@@ -1,22 +1,3 @@
-/**
- * ol-loadingpanel - v2.0.0 - 2020-11-20
- * Copyright (c) 2016 Emmanuel Blondel
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
- * and associated documentation files (the "Software"), to deal in the Software without restriction, 
- * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
- * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
- * subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all copies or substantial 
- * portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
- * LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
- * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
 
 import Control from 'ol/control/Control';
 import {Group as LayerGroup, Tile as TileLayer, Image as ImageLayer, Vector as VectorLayer} from 'ol/layer';
@@ -165,7 +146,8 @@ export default class LoadingPanel extends Control {
 				if(this_.oncustomstart) this_.oncustomstart.apply(this_,[]);
 			}
             if(!this.loaded) this.loaded = 0;
-			this.loading = (this.loading)? this.loading+1 : 1;
+			if(typeof this.loading != "number") this.loading = 0;
+			if(typeof this.loading == "number") this.loading += 1;
 			this.isLoaded = this_.updateSourceLoadStatus_(this);
 			if( this_.loadProgressByTile_) {
 				this_.loadProgress_[1] += 1;
@@ -181,6 +163,7 @@ export default class LoadingPanel extends Control {
 			if(e[eventProperty].getState() == 3) console.warn("Loading " + eventProperty + " failed for resource '"+e[eventProperty].src_+"'");
 		
 			this.loaded += 1;
+			if(!this.loading) this.loading = this.loaded;
 			this.isLoaded = this_.updateSourceLoadStatus_(this);
 			if( this_.loadProgressByTile_) {
 				this_.loadProgress_[0] += 1;
@@ -190,6 +173,11 @@ export default class LoadingPanel extends Control {
 					if( progressBarDiv.length > 0 ) progressBarDiv[0].children()[0].width = String(parseInt(100 * this_.progress()))+'%';
 				}
 				if(this_.oncustomprogress) this_.oncustomprogress.apply(this_,this_.loadProgress_);
+			}
+			if(this.isLoaded){
+				this_.layerCount += 1;
+				this.loaded = 0;
+				this.loading = false;
 			}
 		});
 		
@@ -208,7 +196,6 @@ export default class LoadingPanel extends Control {
 				for(var j=0;j<layers.length;j++){
 					var l = layers[j];
 					if( !(l instanceof VectorLayer) ) {
-						console.log(l);
 						this.tileListeners.push( this.registerLayerLoadEvents_(l) );
                         this.layerCount += 1;
 					}
