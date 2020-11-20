@@ -1,6 +1,7 @@
 
 import Control from 'ol/control/Control';
 import {Group as LayerGroup, Tile as TileLayer, Image as ImageLayer, Vector as VectorLayer} from 'ol/layer';
+import Layer from 'ol/layer/Layer';
 import {TileImage} from 'ol/source';
 import { unByKey } from 'ol/Observable';
 import './ol-loadingpanel.css';
@@ -193,7 +194,7 @@ export default class LoadingPanel extends Control {
                         this.layerCount += 1;
 					}
 				}
-			} else {
+			} else if(layer instanceof Layer) {
 				if( !(layer instanceof VectorLayer) ) {
 					this.tileListeners.push( this.registerLayerLoadEvents_(layer) );
                     this.layerCount += 1;
@@ -220,8 +221,8 @@ export default class LoadingPanel extends Control {
 						loadStatusArray.push( l.getSource().isLoaded );
 					}
 				}
-			} else {
-				if(layer.getSource) loadStatusArray.push( layer.getSource().isLoaded );	
+			} else if(layer instanceof Layer) {
+				loadStatusArray.push( layer.getSource().isLoaded );	
 			}
 		}
 			
