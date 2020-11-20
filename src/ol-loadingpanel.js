@@ -221,7 +221,7 @@ export default class LoadingPanel extends Control {
 					}
 				}
 			} else {
-				loadStatusArray.push( layer.getSource().isLoaded );	
+				if(layer.getSource) loadStatusArray.push( layer.getSource().isLoaded );	
 			}
 		}
 			
