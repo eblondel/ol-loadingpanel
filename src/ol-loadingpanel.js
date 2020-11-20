@@ -327,7 +327,7 @@ export default class LoadingPanel extends Control {
 					//last layer
 					var l = layers[layers.length-1];
 					this_.show();
-					this_.registerLayerLoadEvents_(l);
+					if(l instanceof Layer) this_.registerLayerLoadEvents_(l);
 				}
             }));
         }
