@@ -175,9 +175,11 @@ export default class LoadingPanel extends Control {
 				if(this_.oncustomprogress) this_.oncustomprogress.apply(this_,this_.loadProgress_);
 			}
 			if(this.isLoaded){
-				this_.layerCount += 1;
-				this.loaded = 0;
-				this.loading = false;
+				if(eventProperty == "tile"){
+					this_.layerCount += 1;
+					this.loaded = 0;
+					this.loading = false;
+				}
 			}
 		});
 		
