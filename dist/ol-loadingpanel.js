@@ -1,9 +1,9 @@
 
 import Control from 'ol/control/Control';
 import {Group as LayerGroup, Tile as TileLayer, Image as ImageLayer, Vector as VectorLayer} from 'ol/layer';
+import Layer from 'ol/layer/Layer';
 import {TileImage} from 'ol/source';
 import { unByKey } from 'ol/Observable';
-import './ol-loadingpanel.css';
 
 /**
  * OpenLayers Loading Panel Control.
@@ -146,7 +146,8 @@ export default class LoadingPanel extends Control {
 				if(this_.oncustomstart) this_.oncustomstart.apply(this_,[]);
 			}
             if(!this.loaded) this.loaded = 0;
-			this.loading = (this.loading)? this.loading+1 : 1;
+			if(typeof this.loading != "number") this.loading = 0;
+			if(typeof this.loading == "number") this.loading += 1;
 			this.isLoaded = this_.updateSourceLoadStatus_(this);
 			if( this_.loadProgressByTile_) {
 				this_.loadProgress_[1] += 1;
@@ -162,6 +163,7 @@ export default class LoadingPanel extends Control {
 			if(e[eventProperty].getState() == 3) console.warn("Loading " + eventProperty + " failed for resource '"+e[eventProperty].src_+"'");
 		
 			this.loaded += 1;
+			if(!this.loading) this.loading = this.loaded;
 			this.isLoaded = this_.updateSourceLoadStatus_(this);
 			if( this_.loadProgressByTile_) {
 				this_.loadProgress_[0] += 1;
@@ -171,6 +173,13 @@ export default class LoadingPanel extends Control {
 					if( progressBarDiv.length > 0 ) progressBarDiv[0].children()[0].width = String(parseInt(100 * this_.progress()))+'%';
 				}
 				if(this_.oncustomprogress) this_.oncustomprogress.apply(this_,this_.loadProgress_);
+			}
+			if(this.isLoaded){
+				if(eventProperty == "tile"){
+					this_.layerCount += 1;
+					this.loaded = 0;
+					this.loading = false;
+				}
 			}
 		});
 		
@@ -193,7 +202,7 @@ export default class LoadingPanel extends Control {
                         this.layerCount += 1;
 					}
 				}
-			} else {
+			} else if(layer instanceof Layer) {
 				if( !(layer instanceof VectorLayer) ) {
 					this.tileListeners.push( this.registerLayerLoadEvents_(layer) );
                     this.layerCount += 1;
@@ -220,7 +229,7 @@ export default class LoadingPanel extends Control {
 						loadStatusArray.push( l.getSource().isLoaded );
 					}
 				}
-			} else {
+			} else if(layer instanceof Layer) {
 				loadStatusArray.push( layer.getSource().isLoaded );	
 			}
 		}
@@ -326,7 +335,7 @@ export default class LoadingPanel extends Control {
 					//last layer
 					var l = layers[layers.length-1];
 					this_.show();
-					this_.registerLayerLoadEvents_(l);
+					if(l instanceof Layer) this_.registerLayerLoadEvents_(l);
 				}
             }));
         }

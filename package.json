@@ -1,6 +1,6 @@
 {
   "name": "ol-loadingpanel",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Loading Panel control for OpenLayers",
   "repository": {
     "type": "git",
@@ -41,6 +41,6 @@
     "parcel-plugin-static-files-copy": "^2.5.0"
   },
   "dependencies": {
-    "ol": "^6.4.3"
+    "ol": "^6.5.0"
   }
 }
