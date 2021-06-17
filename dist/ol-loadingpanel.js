@@ -336,6 +336,8 @@ export default class LoadingPanel extends Control {
 				if(count > this_.layerCount){
 					//last layer
 					var l = layers[layers.length-1];
+					console.log(layers);
+					console.log(l);
 					this_.show();
 					if(l instanceof Layer) if(!(l instanceof VectorLayer)) this_.registerLayerLoadEvents_(l);
 				}
