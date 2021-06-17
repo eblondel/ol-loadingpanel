@@ -230,7 +230,9 @@ export default class LoadingPanel extends Control {
 					}
 				}
 			} else if(layer instanceof Layer) {
-				loadStatusArray.push( layer.getSource().isLoaded );	
+				if( !(l instanceof VectorLayer) ) {
+					loadStatusArray.push( layer.getSource().isLoaded );	
+				}
 			}
 		}
 			
@@ -335,7 +337,7 @@ export default class LoadingPanel extends Control {
 					//last layer
 					var l = layers[layers.length-1];
 					this_.show();
-					if(l instanceof Layer) this_.registerLayerLoadEvents_(l);
+					if(l instanceof Layer) if(!(l instanceof VectorLayer)) this_.registerLayerLoadEvents_(l);
 				}
             }));
         }
