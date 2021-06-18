@@ -133,7 +133,7 @@ export default class LoadingPanel extends Control {
         var endEvents = (layer.getSource() instanceof TileImage)? ["tileloadend", "tileloaderror"] : ["imageloadend", "imageloaderror"];
         //on start
 		layer.getSource().on(startEvents, function(e) {
-			if(this_.layerCount = 0) this_.show();
+			//if(this_.layerCount == 0) this_.show();
 			//map load status to false in case we add start events
             if( this_.loadStatus_ ) {
 				this_.loadStatus_ = false;
@@ -176,7 +176,6 @@ export default class LoadingPanel extends Control {
 			}
 			if(this.isLoaded){
 				if(eventProperty == "tile"){
-					this_.layerCount += 1;
 					this.loaded = 0;
 					this.loading = false;
 				}
@@ -190,9 +189,9 @@ export default class LoadingPanel extends Control {
 	 *
 	 */
 	registerLayersLoadEvents_() {
-		var groups = this.getMap().getLayers().getArray();
-		for(var i=0;i<groups.length;i++) {
-			var layer = groups[i];
+		var items = this.getMap().getLayers().getArray();
+		for(var i=0;i<items.length;i++) {
+			var layer = items[i];
 			if(layer instanceof LayerGroup) {
 				var layers = layer.getLayers().getArray();
 				for(var j=0;j<layers.length;j++){
@@ -202,7 +201,7 @@ export default class LoadingPanel extends Control {
                         this.layerCount += 1;
 					}
 				}
-			} else if(layer instanceof Layer) {
+			} else {
 				if( !(layer instanceof VectorLayer) ) {
 					this.tileListeners.push( this.registerLayerLoadEvents_(layer) );
                     this.layerCount += 1;
@@ -218,9 +217,9 @@ export default class LoadingPanel extends Control {
 	updateLoadStatus_() {
 		
 		var loadStatusArray = new Array();
-		var groups = this.getMap().getLayers().getArray();
-		for(var i=0;i<groups.length;i++) {
-			var layer = groups[i];
+		var items = this.getMap().getLayers().getArray();
+		for(var i=0;i<items.length;i++) {
+			var layer = items[i];
 			if(layer instanceof LayerGroup) {
 				var layers = layer.getLayers().getArray();
 				for(var j=0;j<layers.length;j++){
@@ -229,7 +228,7 @@ export default class LoadingPanel extends Control {
 						loadStatusArray.push( l.getSource().isLoaded );
 					}
 				}
-			} else if(layer instanceof Layer) {
+			} else {
 				if( !(l instanceof VectorLayer) ) {
 					loadStatusArray.push( layer.getSource().isLoaded );	
 				}
@@ -315,33 +314,40 @@ export default class LoadingPanel extends Control {
             
              //register event if a map change is triggered
             this.mapListeners.push(this.getMap().on("change", function(e){
+				
+				//first time
+				if(this_.layerCount == 0) this_.registerLayersLoadEvents_();
+				
 				var layers = this_.getMap().getLayers().getArray();
 				var withLayerGroups = layers[0] instanceof LayerGroup;
 				var count = layers.length;
 				if(withLayerGroups){
-					count = layers
-						.map(function(item){return item.getLayers().getArray().length})
-						.reduce(function(a, b){ return a + b;});
 					var thelayers = new Array();
 					for(var i=0;i<layers.length;i++){
 						var groupLayers = layers[i].getLayers().getArray();
 						for(var j=0;j<groupLayers.length;j++){
-							thelayers.push(groupLayers[j]);
+							var thelayer = groupLayers[j];
+							if(!(thelayer instanceof VectorLayer)){
+								thelayers.push(groupLayers[j]);
+							}
 						}
 					}
 					layers = thelayers;
+					count = layers.length;
 				}
-				console.log("Count layer = "+count);
-				console.log(this_.layerCount);
+				console.log("# of layers = "+count+" vs. ol-loadingpanel layerCount = "+this_.layerCount);
 				if(count > this_.layerCount){
 					//last layer
 					var l = layers[layers.length-1];
-					console.log(layers);
-					console.log(l);
 					this_.show();
-					if(l instanceof Layer) if(!(l instanceof VectorLayer)) this_.registerLayerLoadEvents_(l);
+					this_.registerLayerLoadEvents_(l);
+				}else{
+					this_.hide();
+					this_.layerCount -= 1;
 				}
             }));
+			
+			this.getMap().changed(); // trigger registerLayersLoadEvents_
         }
 	}
 }
