@@ -341,7 +341,7 @@ export default class LoadingPanel extends Control {
 					var l = layers[layers.length-1];
 					this_.show();
 					this_.registerLayerLoadEvents_(l);
-				}else{
+				}else if(count < this_.layerCount){
 					this_.hide();
 					this_.layerCount -= 1;
 				}
